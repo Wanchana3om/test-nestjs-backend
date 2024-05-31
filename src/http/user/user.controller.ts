@@ -1,7 +1,7 @@
 import { Controller, Post, Body } from '@nestjs/common';
 import { UserService } from './user.service';
 import { SignInDto } from './dto/sign-in.dto';
-import { ApiResource } from 'src/resource/api-resouce';
+import { Resource } from '../../resource/resource';
 
 @Controller('sign-in')
 export class UserController {
@@ -10,11 +10,10 @@ export class UserController {
   @Post('/')
   async signIn(@Body() signInDto: SignInDto) {
     try {
-      const respond = await this.userService.signIn(signInDto);
-
-      return ApiResource.successResponse(respond);
+      const response = await this.userService.signIn(signInDto);
+      return Resource.successResponse(response);
     } catch (error) {
-      return ApiResource.errorResponse(error);
+      return Resource.errorResponse(error);
     }
   }
 }

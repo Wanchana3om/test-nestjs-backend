@@ -1,5 +1,4 @@
 import { HttpStatus } from '@nestjs/common';
-import { ErrorResponseInterface } from './exception-response';
 
 export class ApiResource {
   static successResponse(data: any) {
@@ -27,8 +26,11 @@ export class ApiResource {
     }
   }
 
-  static errorResponse(error: Error): ErrorResponseInterface {
-    throw error;
+  static errorResponse(error: any) {
+    return {
+      status: 'error',
+      message: error.message || 'An unexpected error occurred',
+    };
   }
 
   static mapResponse(item: any) {
