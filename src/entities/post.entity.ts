@@ -2,9 +2,14 @@ import { CommunityTypeEnum } from 'src/common/enum/community-type-enum';
 import {
   Column,
   Entity,
+  JoinColumn,
+  ManyToOne,
+  OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
+import { CommentEntity } from './comment.entity';
+import { UserEntity } from './user.entity';
 
 @Entity('posts')
 export class PostEntity {
@@ -46,4 +51,18 @@ export class PostEntity {
     onUpdate: 'CURRENT_TIMESTAMP(0)',
   })
   updatedAt: Date;
+
+  @OneToMany(() => CommentEntity, (comment) => comment.post)
+  @JoinColumn({
+    name: 'id',
+    referencedColumnName: 'post_id',
+  })
+  comments: CommentEntity;
+
+  @ManyToOne(() => UserEntity, (user) => user.posts)
+  @JoinColumn({
+    name: 'user_id',
+    referencedColumnName: 'id',
+  })
+  user: UserEntity;
 }

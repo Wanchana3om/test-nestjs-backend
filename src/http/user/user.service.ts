@@ -14,12 +14,12 @@ export class UserService {
   async signIn(parameter: SignInDto): Promise<void> {
     const username = parameter.username;
 
-    const existingUser = await this.userRepository.findOne({
+    const user = await this.userRepository.findOne({
       where: { username },
     });
 
-    if (existingUser) {
-      throw new Error('Username already exists');
+    if (user) {
+      return;
     }
 
     const newUser = new UserEntity();

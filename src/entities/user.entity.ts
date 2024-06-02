@@ -1,9 +1,13 @@
 import {
   Column,
   Entity,
+  JoinColumn,
+  OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
+import { PostEntity } from './post.entity';
+import { CommentEntity } from './comment.entity';
 
 @Entity('users')
 export class UserEntity {
@@ -30,4 +34,18 @@ export class UserEntity {
     onUpdate: 'CURRENT_TIMESTAMP(0)',
   })
   updatedAt: Date;
+
+  @OneToMany(() => PostEntity, (post) => post.user)
+  @JoinColumn({
+    name: 'id',
+    referencedColumnName: 'user_id',
+  })
+  posts: PostEntity;
+
+  @OneToMany(() => CommentEntity, (comment) => comment.user)
+  @JoinColumn({
+    name: 'id',
+    referencedColumnName: 'user_id',
+  })
+  comments: CommentEntity;
 }
