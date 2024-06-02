@@ -1,5 +1,4 @@
 import { IsNotEmpty } from 'class-validator';
-import { CommunityTypeEnum } from 'src/common/enum/community-type-enum';
 
 export class CreatePostDto {
   @IsNotEmpty({
@@ -20,5 +19,5 @@ export class CreatePostDto {
   @IsNotEmpty({
     message: 'community type is required',
   })
-  communityType: CommunityTypeEnum;
+  communityType: string;
 }

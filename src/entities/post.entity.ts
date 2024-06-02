@@ -1,4 +1,3 @@
-import { CommunityTypeEnum } from 'src/common/enum/community-type-enum';
 import {
   Column,
   Entity,
@@ -28,8 +27,8 @@ export class PostEntity {
   })
   content: string;
 
-  @Column({ name: 'community_type', type: 'enum', enum: CommunityTypeEnum })
-  communityType: CommunityTypeEnum;
+  @Column({ name: 'community_type', type: 'varchar' })
+  communityType: string;
 
   @Column({
     name: 'user_id',

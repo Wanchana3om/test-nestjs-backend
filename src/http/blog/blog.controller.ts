@@ -8,6 +8,7 @@ import {
   ParseIntPipe,
   Param,
   Delete,
+  UseGuards,
 } from '@nestjs/common';
 import { BlogService } from './blog.service';
 import { CreatePostDto } from './dto/create-post.dto';
@@ -15,11 +16,13 @@ import { Resource } from 'src/resource/resource';
 import { AddCommentDto } from './dto/add-comment.dto';
 import { EditPostDto } from './dto/edit-post.dto';
 import { DeletePostDto } from './dto/delete-post.dto';
+import { JwtAuthGuard } from '../user/strategies/jwt-auth.guard';
 
 @Controller('blog')
 export class BlogController {
   constructor(private readonly blogService: BlogService) {}
 
+  @UseGuards(JwtAuthGuard)
   @Get('/')
   async getAllPost(@Query() query: any) {
     try {
@@ -31,6 +34,19 @@ export class BlogController {
     }
   }
 
+  @UseGuards(JwtAuthGuard)
+  @Get('our-blog/:id')
+  async getOurPost(@Param('id', ParseIntPipe) id: number, @Query() query: any) {
+    try {
+      const response = await this.blogService.getOurPost(id, query);
+
+      return Resource.successResponse(response);
+    } catch (error) {
+      return error;
+    }
+  }
+
+  @UseGuards(JwtAuthGuard)
   @Get(':id')
   async getPostById(@Param('id', ParseIntPipe) id: number) {
     try {
@@ -42,6 +58,7 @@ export class BlogController {
     }
   }
 
+  @UseGuards(JwtAuthGuard)
   @Post('post')
   async createPost(@Body() parameter: CreatePostDto) {
     try {
@@ -53,6 +70,7 @@ export class BlogController {
     }
   }
 
+  @UseGuards(JwtAuthGuard)
   @Patch('post')
   async editPost(@Body() parameter: EditPostDto) {
     try {
@@ -64,6 +82,7 @@ export class BlogController {
     }
   }
 
+  @UseGuards(JwtAuthGuard)
   @Delete('post')
   async deletePost(@Body() parameter: DeletePostDto) {
     try {
@@ -75,6 +94,7 @@ export class BlogController {
     }
   }
 
+  @UseGuards(JwtAuthGuard)
   @Post('comment')
   async addComment(@Body() parameter: AddCommentDto) {
     try {

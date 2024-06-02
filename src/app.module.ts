@@ -26,7 +26,7 @@ import { BlogModule } from './http/blog/blog.module';
       inject: [ConfigService],
     }),
     ConfigModule,
-    ConfigModule.forRoot({ envFilePath: ['.env'] }),
+    ConfigModule.forRoot({ isGlobal: true, envFilePath: ['.env'] }),
     UserModule,
     BlogModule,
   ],

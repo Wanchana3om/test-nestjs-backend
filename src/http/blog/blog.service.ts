@@ -35,24 +35,32 @@ export class BlogService {
       .orderBy('post.createdAt', 'DESC')
       .addOrderBy('comment.createdAt', 'DESC');
 
-    if (parameters.filters?.communityType) {
-      posts.andWhere('post.communityType = :communityType', {
-        communityType: parameters.filters.communityType,
-      });
-    }
+    const page = Number(parameters.page) || 1;
+    const perPage = Number(parameters.perPage) || 999;
 
-    if (parameters.filters?.search) {
-      const searchQuery = `%${parameters.filters.search.toLowerCase()}%`;
-      posts.andWhere(
-        'LOWER(post.title) LIKE :search OR LOWER(post.content) LIKE :search',
-        {
-          search: searchQuery,
-        },
-      );
-    }
+    const options: IPaginationOptions = {
+      page: page,
+      limit: perPage,
+    };
+
+    return paginate<PostEntity>(posts, options);
+  }
+
+  async getOurPost(
+    userId: number,
+    parameters?: any,
+  ): Promise<Pagination<PostEntity>> {
+    const posts = this.postRepository
+      .createQueryBuilder('post')
+      .leftJoinAndSelect('post.comments', 'comment')
+      .leftJoinAndSelect('comment.user', 'commentUser')
+      .leftJoinAndSelect('post.user', 'user')
+      .where('post.userId = :userId', { userId })
+      .orderBy('post.createdAt', 'DESC')
+      .addOrderBy('comment.createdAt', 'DESC');
 
     const page = Number(parameters.page) || 1;
-    const perPage = Number(parameters.perPage) || 10;
+    const perPage = Number(parameters.perPage) || 999;
 
     const options: IPaginationOptions = {
       page: page,
@@ -69,7 +77,7 @@ export class BlogService {
       .leftJoinAndSelect('comment.user', 'commentUser')
       .leftJoinAndSelect('post.user', 'user')
       .orderBy('post.createdAt', 'DESC')
-      .addOrderBy('comment.createdAt', 'DESC')
+      .addOrderBy('comment.id', 'DESC')
       .where('post.id = :id', { id: id })
       .getOne();
 
@@ -115,6 +123,7 @@ export class BlogService {
     try {
       foundPost.title = title;
       foundPost.communityType = communityType;
+      foundPost.content = content;
 
       if (!title) {
         foundPost.title = title;
