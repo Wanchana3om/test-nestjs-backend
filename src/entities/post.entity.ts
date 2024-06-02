@@ -21,10 +21,10 @@ export class PostEntity {
     name: 'content',
     type: 'varchar',
   })
-  content: number;
+  content: string;
 
-  @Column({ name: 'community_type', type: 'enum', enum: [CommunityTypeEnum] })
-  communityType: string;
+  @Column({ name: 'community_type', type: 'enum', enum: CommunityTypeEnum })
+  communityType: CommunityTypeEnum;
 
   @Column({
     name: 'user_id',

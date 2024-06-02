@@ -7,6 +7,7 @@ import { UserEntity } from './entities/user.entity';
 import { PostEntity } from './entities/post.entity';
 import { CommentEntity } from './entities/comment.entity';
 import { UserModule } from './http/user/user.module';
+import { BlogModule } from './http/blog/blog.module';
 
 @Module({
   imports: [
@@ -27,6 +28,7 @@ import { UserModule } from './http/user/user.module';
     ConfigModule,
     ConfigModule.forRoot({ envFilePath: ['.env'] }),
     UserModule,
+    BlogModule,
   ],
   controllers: [AppController],
   providers: [AppService],
