@@ -5,10 +5,10 @@ import {
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { PostEntity } from 'src/entities/post.entity';
+import { PostEntity } from '../../entities/post.entity';
 import { CreatePostDto } from './dto/create-post.dto';
 import { AddCommentDto } from './dto/add-comment.dto';
-import { CommentEntity } from 'src/entities/comment.entity';
+import { CommentEntity } from '../../entities/comment.entity';
 import { EditPostDto } from './dto/edit-post.dto';
 import {
   IPaginationOptions,
@@ -80,6 +80,10 @@ export class BlogService {
       .addOrderBy('comment.id', 'DESC')
       .where('post.id = :id', { id: id })
       .getOne();
+
+    if (!foundPost) {
+      throw new NotFoundException('Post not found');
+    }
 
     return foundPost;
   }

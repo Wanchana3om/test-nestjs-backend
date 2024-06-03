@@ -9,6 +9,7 @@ import {
 } from 'typeorm';
 import { CommentEntity } from './comment.entity';
 import { UserEntity } from './user.entity';
+import { CommunityTypeEnum } from './community-type-enum';
 
 @Entity('posts')
 export class PostEntity {
@@ -27,8 +28,8 @@ export class PostEntity {
   })
   content: string;
 
-  @Column({ name: 'community_type', type: 'varchar' })
-  communityType: string;
+  @Column({ name: 'community_type', type: 'enum', enum: CommunityTypeEnum })
+  communityType: CommunityTypeEnum;
 
   @Column({
     name: 'user_id',

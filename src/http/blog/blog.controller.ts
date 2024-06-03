@@ -12,7 +12,7 @@ import {
 } from '@nestjs/common';
 import { BlogService } from './blog.service';
 import { CreatePostDto } from './dto/create-post.dto';
-import { Resource } from 'src/resource/resource';
+import { Resource } from '../../resource/resource';
 import { AddCommentDto } from './dto/add-comment.dto';
 import { EditPostDto } from './dto/edit-post.dto';
 import { DeletePostDto } from './dto/delete-post.dto';
