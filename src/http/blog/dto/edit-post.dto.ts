@@ -1,5 +1,5 @@
 import { IsNotEmpty } from 'class-validator';
-import { CommunityTypeEnum } from '../../../entities/community-type-enum';
+import { CommunityTypeEnum } from '../enum/community-type-enum';
 
 export class EditPostDto {
   @IsNotEmpty({

@@ -1,9 +1,9 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { PostEntity } from '../../../entities/post.entity';
-import { BlogService } from '../../blog/blog.service';
-import { CommentEntity } from '../../../entities/comment.entity';
+import { PostEntity } from '../../entities/post.entity';
+import { BlogService } from '../../../src/http/blog/blog.service';
+import { CommentEntity } from '../../entities/comment.entity';
 import { NotFoundException, BadRequestException } from '@nestjs/common';
 
 describe('BlogService -> deletePost', () => {

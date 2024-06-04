@@ -1,10 +1,10 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { get } from 'lodash';
-import { BlogController } from '../../blog/blog.controller';
-import { BlogService } from '../../blog/blog.service';
-import { CreatePostDto } from '../../blog/dto/create-post.dto';
-import { PostEntity } from '../../../entities/post.entity';
-import { CommunityTypeEnum } from '../../../entities/community-type-enum';
+import { BlogController } from '../../../src/http/blog/blog.controller';
+import { BlogService } from '../../../src/http/blog/blog.service';
+import { CreatePostDto } from '../../../src/http/blog/dto/create-post.dto';
+import { PostEntity } from '../../entities/post.entity';
+import { CommunityTypeEnum } from '../../../src/http/blog/enum/community-type-enum';
 
 describe('BlogController', () => {
   let controller: BlogController;

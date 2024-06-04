@@ -1,10 +1,10 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { get } from 'lodash';
-import { BlogController } from '../../blog/blog.controller';
-import { BlogService } from '../../blog/blog.service';
+import { BlogController } from '../../../src/http/blog/blog.controller';
+import { BlogService } from '../../../src/http/blog/blog.service';
 import { IPaginationMeta, Pagination } from 'nestjs-typeorm-paginate';
 import { PostEntity } from 'src/entities/post.entity';
-import { CommunityTypeEnum } from '../../../entities/community-type-enum';
+import { CommunityTypeEnum } from '../../../src/http/blog/enum/community-type-enum';
 
 describe('BlogController', () => {
   let controller: BlogController;

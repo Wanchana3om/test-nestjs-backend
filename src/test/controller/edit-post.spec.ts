@@ -1,9 +1,10 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { get } from 'lodash';
-import { BlogController } from '../../blog/blog.controller';
-import { BlogService } from '../../blog/blog.service';
-import { PostEntity } from 'src/entities/post.entity';
-import { CommunityTypeEnum } from '../../../entities/community-type-enum';
+import { BlogController } from '../../../src/http/blog/blog.controller';
+import { BlogService } from '../../../src/http/blog/blog.service';
+import { EditPostDto } from '../../../src/http/blog/dto/edit-post.dto';
+import { PostEntity } from '../../entities/post.entity';
+import { CommunityTypeEnum } from '../../../src/http/blog/enum/community-type-enum';
 
 describe('BlogController', () => {
   let controller: BlogController;
@@ -11,7 +12,7 @@ describe('BlogController', () => {
 
   beforeEach(async () => {
     fakeBlogService = {
-      getPostById: jest.fn(),
+      editPost: jest.fn(),
     };
     const module: TestingModule = await Test.createTestingModule({
       controllers: [BlogController],
@@ -25,11 +26,11 @@ describe('BlogController', () => {
     controller = module.get<BlogController>(BlogController);
   });
 
-  const mockPost: PostEntity = {
+  const editedPost: PostEntity = {
     id: 1,
-    title: 'test',
-    content: 'test',
-    communityType: CommunityTypeEnum.EXERCISE,
+    title: 'Updated Title',
+    content: 'Updated Content',
+    communityType: CommunityTypeEnum.FASHION,
     userId: 1,
     createdAt: new Date(),
     updatedAt: new Date(),
@@ -37,19 +38,26 @@ describe('BlogController', () => {
     user: null,
   };
 
+  const editPostDto: EditPostDto = {
+    postId: 1,
+    title: 'Updated Title',
+    content: 'Updated Content',
+    communityType: CommunityTypeEnum.FASHION,
+  };
+
   it('should return ok', async () => {
-    jest.spyOn(fakeBlogService, 'getPostById').mockResolvedValue(mockPost);
-    const response = await controller.getPostById(1);
+    jest.spyOn(fakeBlogService, 'editPost').mockResolvedValue(editedPost);
+    const response = await controller.editPost(editPostDto);
     expect(get(response, 'status.code')).toEqual(200);
     expect(get(response, 'status.message')).toEqual('OK');
   });
 
   it('should throw an exception', async () => {
     const error = new Error('error');
-    jest.spyOn(fakeBlogService, 'getPostById').mockRejectedValue(error);
+    jest.spyOn(fakeBlogService, 'editPost').mockRejectedValue(error);
 
     try {
-      await controller.getPostById(1);
+      await controller.editPost(editPostDto);
     } catch (error) {
       expect(error).toBe(error);
     }

@@ -1,8 +1,9 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { get } from 'lodash';
-import { BlogController } from '../../blog/blog.controller';
-import { BlogService } from '../../blog/blog.service';
-import { DeletePostDto } from '../../blog/dto/delete-post.dto';
+import { BlogController } from '../../../src/http/blog/blog.controller';
+import { BlogService } from '../../../src/http/blog/blog.service';
+import { AddCommentDto } from '../../../src/http/blog/dto/add-comment.dto';
+import { CommentEntity } from '../../entities/comment.entity';
 
 describe('BlogController', () => {
   let controller: BlogController;
@@ -10,7 +11,7 @@ describe('BlogController', () => {
 
   beforeEach(async () => {
     fakeBlogService = {
-      deletePost: jest.fn(),
+      addComment: jest.fn(),
     };
     const module: TestingModule = await Test.createTestingModule({
       controllers: [BlogController],
@@ -24,23 +25,36 @@ describe('BlogController', () => {
     controller = module.get<BlogController>(BlogController);
   });
 
-  const deletePostDto: DeletePostDto = {
+  const addCommentDto: AddCommentDto = {
     postId: 1,
+    userId: 1,
+    message: 'Test comment',
+  };
+
+  const mockResult: CommentEntity = {
+    id: 1,
+    message: 'dsfsdfasfd',
+    userId: 1,
+    postId: 5,
+    createdAt: new Date('2024-06-03T14:16:32.000Z'),
+    updatedAt: new Date('2024-06-03T14:16:32.000Z'),
+    post: null,
+    user: null,
   };
 
   it('should return ok', async () => {
-    jest.spyOn(fakeBlogService, 'deletePost').mockResolvedValue();
-    const response = await controller.deletePost(deletePostDto);
+    jest.spyOn(fakeBlogService, 'addComment').mockResolvedValue(mockResult);
+    const response = await controller.addComment(addCommentDto);
     expect(get(response, 'status.code')).toEqual(200);
     expect(get(response, 'status.message')).toEqual('OK');
   });
 
   it('should throw an exception', async () => {
     const error = new Error('error');
-    jest.spyOn(fakeBlogService, 'deletePost').mockRejectedValue(error);
+    jest.spyOn(fakeBlogService, 'addComment').mockRejectedValue(error);
 
     try {
-      await controller.deletePost(deletePostDto);
+      await controller.addComment(addCommentDto);
     } catch (error) {
       expect(error).toBe(error);
     }
