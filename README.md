@@ -1,3 +1,4 @@
+
 ## Test Project (Backend)
 
 Test Project เป็น Project เกี่ยวกับ Community ที่สามารถสร้าง Blog เพื่อ Post หรือ Comment ซึ่งทุกคนสามารถมาสนทนากันได้ โดยส่วนนี้จะเป็นส่วนของ Backend โดย [Nest](https://github.com/nestjs/nest) framework
@@ -50,11 +51,17 @@ $ npm run start:dev
 
 ## Application Architecture
 
-ในส่วของ Architecture
+ในส่วนของ Architecture
 
-<img src="./public/Screenshot 2567-06-04 at 19.27.18.png" alt="schema" width="400"/>
+<img  src="./public/Screenshot 2567-06-04 at 19.27.18.png"  alt="schema"  width="400"/>
 
-- จากรูปข้างต้นจะเห็นว่า มีการแยก enities http migration resource test อยากชัดเจนใน level เเรก ส่วนใน http จะประกอบไปด้วย api เเต่ละเส้น ในที่นี้จะเเยกระหว่าง blog และ user หรือ api CRUD ของแต่ละเส้นให้ชัดเจน แล้วในส่วนของ ไฟล์ test จะแบ่งภายในเป็น controller และ service
+จากรูปข้างต้นจะเห็นว่า มีการแยกโฟลเดอร์อย่างชัดเจน
+
+- โฟลเดอร์ enities ที่ใช้ในการจัดเก็บ ไฟล์ entity ต่างๆ
+- โฟลเดอร์  http ที่ภายในจะเก็บ api แยกเส้นกันไว้ ในที่นี้จะมี api ฝั่ง blog และ user ซึ่งภายในจะมีไฟล์ controller, service และ modul 
+- โฟลเดอร์ dto ที่เก็บไฟล์ dto ของแต่ละ controller 
+- โฟลเดอร์ resource เก็บไฟล์ที่ใช้ในการปั้น resource ที่ต้องการ
+- โฟลเดอร์ test ภายในจะแยก unit test ระหว่าง controller และ service อย่างชัดเจน
 
 - ในส่วนของ database table มีการออกแบบ relation ตามรูปข้างล่างนี้
   <img src="./public/Screenshot%202567-06-04%20at%2018.05.30.png" alt="schema" width="600"/>
@@ -71,9 +78,11 @@ $ npm run start:dev
 
 ```bash
   @nestjs/jwt
+  @nestjs/passport
+  passport-jwt
 ```
 
-- นอกจากจะ create token ยังสามารถใช้เป็นเหมือนระบบ Authentication Middleware คอยตรวจสอบ ว่า request ที่แนบมานั้นมี token แนบมาด้วยรึปล่าวเป็นระบบป้องกันความภัยระดับนึง
+- นอกจากจะ create token ยังสามารถใช้ jwt strategy เป็นเหมือนระบบ Authentication Middleware คอยตรวจสอบ ว่า request ที่แนบมานั้นมี token แนบมาด้วยรึปล่าวเป็นระบบป้องกันความภัยระดับนึง
 
 ## Run Unit Test
 
