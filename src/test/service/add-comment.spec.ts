@@ -1,11 +1,11 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { PostEntity } from '../../../entities/post.entity';
-import { BlogService } from '../../blog/blog.service';
-import { CommentEntity } from '../../../entities/comment.entity';
+import { PostEntity } from '../../entities/post.entity';
+import { BlogService } from '../../http/blog/blog.service';
+import { CommentEntity } from '../../entities/comment.entity';
 import { BadRequestException, NotFoundException } from '@nestjs/common';
-import { AddCommentDto } from '../../blog/dto/add-comment.dto';
+import { AddCommentDto } from '../../../src/http/blog/dto/add-comment.dto';
 
 jest.mock('nestjs-typeorm-paginate');
 

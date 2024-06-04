@@ -9,7 +9,7 @@ import {
 } from 'typeorm';
 import { CommentEntity } from './comment.entity';
 import { UserEntity } from './user.entity';
-import { CommunityTypeEnum } from './community-type-enum';
+import { CommunityTypeEnum } from '../http/blog/enum/community-type-enum';
 
 @Entity('posts')
 export class PostEntity {

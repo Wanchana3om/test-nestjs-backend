@@ -1,16 +1,16 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { PostEntity } from '../../../entities/post.entity';
-import { BlogService } from '../../blog/blog.service';
-import { CommentEntity } from '../../../entities/comment.entity';
+import { PostEntity } from '../../entities/post.entity';
+import { BlogService } from '../../../src/http/blog/blog.service';
+import { CommentEntity } from '../../entities/comment.entity';
 import { paginate, Pagination } from 'nestjs-typeorm-paginate';
 import { plainToClass } from 'class-transformer';
-import { CommunityTypeEnum } from '../../../entities/community-type-enum';
+import { CommunityTypeEnum } from '../../../src/http/blog/enum/community-type-enum';
 
 jest.mock('nestjs-typeorm-paginate');
 
-describe('BlogService -> getOurPost', () => {
+describe('BlogService -> getAllPost', () => {
   let postRepository: Repository<PostEntity>;
   let blogService: BlogService;
 
@@ -41,7 +41,7 @@ describe('BlogService -> getOurPost', () => {
         id: 1,
         title: 'Test Post 1',
         content: 'This is a test post 1',
-        comments: [{ id: 1, message: 'Test comment', user: {} }],
+        comments: [{ id: 1, content: 'Test comment', user: {} }],
         user: {},
         createdAt: new Date(),
         updatedAt: new Date(),
@@ -52,7 +52,7 @@ describe('BlogService -> getOurPost', () => {
         id: 2,
         title: 'Test Post 2',
         content: 'This is a test post 2',
-        comments: [{ id: 2, message: 'Test comment', user: {} }],
+        comments: [{ id: 2, content: 'Test comment', user: {} }],
         user: {},
         createdAt: new Date(),
         updatedAt: new Date(),
@@ -76,7 +76,6 @@ describe('BlogService -> getOurPost', () => {
       () =>
         ({
           leftJoinAndSelect: jest.fn().mockReturnThis(),
-          where: jest.fn().mockReturnThis(),
           orderBy: jest.fn().mockReturnThis(),
           addOrderBy: jest.fn().mockReturnThis(),
         }) as any,
@@ -85,8 +84,7 @@ describe('BlogService -> getOurPost', () => {
     (paginate as jest.Mock).mockResolvedValue(paginationResult);
 
     const parameters = { page: 1, perPage: 10 };
-    const userId = 1;
-    const result = await blogService.getOurPost(userId, parameters);
+    const result = await blogService.getAllPost(parameters);
 
     expect(result).toEqual(paginationResult);
   });
