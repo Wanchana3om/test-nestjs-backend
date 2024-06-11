@@ -125,23 +125,25 @@ export class BlogService {
     }
 
     try {
-      foundPost.title = title;
-      foundPost.communityType = communityType;
-      foundPost.content = content;
+      const updateData: Partial<EditPostDto> = {};
 
-      if (!title) {
-        foundPost.title = title;
+      if (title) {
+        updateData.title = title;
       }
 
-      if (!communityType) {
-        foundPost.communityType = communityType;
+      if (communityType) {
+        updateData.communityType = communityType;
       }
 
-      if (!content) {
-        foundPost.content = content;
+      if (content) {
+        updateData.content = content;
       }
 
-      const updatedPost = await this.postRepository.save(foundPost);
+      await this.postRepository.update(postId, updateData);
+
+      const updatedPost = await this.postRepository.findOne({
+        where: { id: postId },
+      });
 
       return updatedPost;
     } catch (error) {
